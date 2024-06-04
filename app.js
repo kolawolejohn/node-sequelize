@@ -1,6 +1,7 @@
 const dotenv = require('dotenv')
 dotenv.config()
 const express = require('express')
+const loginRoute = require('./routes/login.route')
 const userRoute = require('./routes/user.route')
 
 const {sequelize} =  require('./database/db')
@@ -8,6 +9,7 @@ const app = express()
 
 app.use(express.json())
 app.use('/users', userRoute)
+app.use('/login', loginRoute)
 
 app.listen(3900, async () => {
     try {
