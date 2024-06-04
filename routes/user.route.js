@@ -1,15 +1,15 @@
 const router = require('express').Router()
-const auth = require('../middlewares/auth.middlewre')
+const authorization = require('../middlewares/authorization.middleware')
 const {getAllUsers, getUserById, createUser, updateUser, deleteUser} = require('../controllers/user.controller')
 
-router.get('/', auth, getAllUsers)
+router.get('/', authorization, getAllUsers)
 
-router.get('/:id', auth, getUserById)
+router.get('/:id', authorization,  getUserById)
 
 router.post('/', createUser)
 
-router.put('/:id', auth, updateUser )
+router.put('/:id', updateUser )
 
-router.delete('/:id', auth, deleteUser )
+router.delete('/:id', deleteUser )
 
 module.exports = router

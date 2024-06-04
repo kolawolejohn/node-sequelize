@@ -1,11 +1,13 @@
-const dotenv = require('dotenv')
-dotenv.config()
+require('dotenv').config()
+
 const express = require('express')
 const loginRoute = require('./routes/login.route')
 const userRoute = require('./routes/user.route')
 
 const {sequelize} =  require('./database/db')
+const authentication = require('./middlewares/authentication.middlewre')
 const app = express()
+app.use(authentication)
 
 app.use(express.json())
 app.use('/users', userRoute)

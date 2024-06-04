@@ -1,20 +1,16 @@
-// const {Sequelize} = require('sequelize')
-
-// const sequelize = new Sequelize(process.env.DB_CONNECTION)
-
-// module.exports = {sequelize}
+require('dotenv').config()
 
 const { Sequelize } = require('sequelize');
 const createUserModel = require('../models/user.model');
-const config = require('../config/config').development
+
 
 const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
+  process.env.DB_DATABASE,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
   {
-    host: config.host,
-    dialect: config.dialect
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT
   }
 );
 

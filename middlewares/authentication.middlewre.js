@@ -2,10 +2,10 @@ const jwt = require("jsonwebtoken");
 const { UserModel } = require("../database/db");
 
 
-const auth = async (req, res, next) => {
+const authentication = async (req, res, next) => {
   const token = req.headers?.authorization?.replace("Bearer ", "");
   if (!token) {
-    res.status(401).send("Unauthorized");
+    next();
     return;
   }
 
@@ -13,15 +13,14 @@ const auth = async (req, res, next) => {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     const userId = payload.userId;
     const user = await UserModel.findByPk(userId);
+    req.user = user
     if (user) {
       next();
       return;
     }
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 
-  res.status(401).send("Unauthorized");
+   next();
 };
 
-module.exports = auth;
+module.exports = authentication;
