@@ -1,4 +1,5 @@
 const { UserModel } = require("../database/db")
+const bcrypt = require('bcrypt')
 
 const getAllUsers = async (req, res) => {
     try {
@@ -19,8 +20,13 @@ const getUserById = async (req, res) => {
 }
 
 const createUser = async (req, res) => {
-    const user = await UserModel.create(req.body)
-     res.status(201).json(user) 
+    const userData = req.body
+    const salt = await bcrypt.genSalt(12); 
+    userData.password = await bcrypt.hash(req.body.password, salt)
+    const user = await UserModel.create(userData)
+    const jsonData = user.toJSON()
+    delete jsonData.password
+    res.status(201).json(jsonData) 
 }
 
 const updateUser = async(req, res) => {
