@@ -9,11 +9,6 @@ const app = express()
 app.use(express.json())
 app.use('/users', userRoute)
 
-
-
-
-
-
 app.listen(3900, async () => {
     try {
       await sequelize.sync({force: false})

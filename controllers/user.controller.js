@@ -1,42 +1,48 @@
+const { UserModel } = require("../database/db")
 
-let users = []
-const getAllUsers = (req, res) => {
-    res.status(200).json(users)
+const getAllUsers = async (req, res) => {
+    try {
+    const users = await UserModel.findAll();
+    res.json(users);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 }
 
-const getUserById = (req, res) => {
+const getUserById = async (req, res) => {
     const id = Number(req.params.id)
-    const user = users.find(u => u.id == id)
+    let user = await UserModel.findByPk(id)
     if (!user) {
        res.status(404).send('User not found')   
     }
     res.status(200).json(user) 
 }
 
-const createUser = (req, res) => {
-    const user = req.body
-    user.id = Date.now()
-    users.push(user)
-    res.status(201).json(user) 
+const createUser = async (req, res) => {
+    const user = await UserModel.create(req.body)
+     res.status(201).json(user) 
 }
 
-const updateUser = (req, res) => {
+const updateUser = async(req, res) => {
     const id = Number(req.params.id)
-    let user = users.find(u => u.id == id)
+    let user = await UserModel.findByPk(id)
     if (!user) {
        res.status(404).send('User not found')   
     }
-    users = users.filter((u) => u.id !== id)
-    user = req.body
-    user.id = id
-    users.push(user)
-    res.status(201).json(user) 
+    user.email = req.body.email
+    user.password = req.body.password
+    user.save()
+    res.status(200).send(user)
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
     const id = Number(req.params.id)
-    users = users.filter((u) => u.id !== id)
-    res.status(204).send("") 
+    let user = await UserModel.findByPk(id)
+    if (!user) {
+       res.status(404).send('User not found')   
+    }
+    await user.destroy()
+    res.status(204).send("User Deleted successfully")
 }
 
 module.exports = {
