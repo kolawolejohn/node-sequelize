@@ -27,9 +27,9 @@ sequelize.authenticate()
     console.error('Unable to connect to the database:', err);
   });
 
-const userModel = createUserModel(sequelize)
+const UserModel = createUserModel(sequelize)
 
 module.exports = {
     sequelize,
-    userModel
+    UserModel
 }
