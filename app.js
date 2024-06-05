@@ -13,6 +13,7 @@ app.use(authentication)
 app.use(express.json())
 app.use('/users', userRoute)
 app.use('/login', loginRoute)
+app.use("/public", express.static("public"))
 
 app.listen(port, async () => {
     try {

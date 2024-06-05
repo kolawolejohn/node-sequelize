@@ -16,14 +16,16 @@ const createUserModel = (sequelize) => {
         password: {
             type: DataTypes.STRING,
             allowNull: false,
-
         },
           is_admin: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
-            
-        }
+        },
+        picture_url: {
+            type: DataTypes.STRING,
+            allowNull: true
+          }
     })
 }
 
