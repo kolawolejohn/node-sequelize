@@ -1,8 +1,11 @@
-const { DataTypes } = require("sequelize");
-// const sequelize = require("../database/db");
+'use strict';
 
-const createUserModel = (sequelize) => {
-    return sequelize.define("Users", {
+const { DataTypes } = require('sequelize');
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('Users', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -23,8 +26,17 @@ const createUserModel = (sequelize) => {
             allowNull: false,
             defaultValue: false
             
+        },
+          createdAt: {
+            type: DataTypes.DATE
+      },
+          updatedAt: {
+            type: DataTypes.DATE
         }
     })
-}
+  },
 
-module.exports = createUserModel
+  async down (queryInterface, Sequelize) {
+   await queryInterface.dropTable('Users');
+  }
+};

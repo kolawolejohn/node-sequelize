@@ -1,18 +1,11 @@
 require('dotenv').config()
 
-const { Sequelize } = require('sequelize');
-const createUserModel = require('../models/user.model');
-
-
-const sequelize = new Sequelize(
-  process.env.DB_DATABASE,
-  process.env.DB_USERNAME,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT
-  }
-);
+const { Sequelize } = require("sequelize");
+const createUserModel = require("../models/user.model");
+const postgresUrl = `postgres://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_DATABASE}`;
+const sequelize = new Sequelize(postgresUrl, {
+  dialect: 'postgres'
+});
 
 // Test the connection
 sequelize.authenticate()
@@ -23,9 +16,6 @@ sequelize.authenticate()
     console.error('Unable to connect to the database:', err);
   });
 
-const UserModel = createUserModel(sequelize)
+const UserModel = createUserModel(sequelize);
 
-module.exports = {
-    sequelize,
-    UserModel
-}
+module.exports = { sequelize, UserModel };

@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const loginRoute = require('./routes/login.route')
 const userRoute = require('./routes/user.route')
+const port = process.env.PORT
 
 const {sequelize} =  require('./database/db')
 const authentication = require('./middlewares/authentication.middlewre')
@@ -13,11 +14,10 @@ app.use(express.json())
 app.use('/users', userRoute)
 app.use('/login', loginRoute)
 
-app.listen(3900, async () => {
+app.listen(port, async () => {
     try {
-      await sequelize.sync({force: false})
-       console.log(`app running on port: 3900`)
-  } catch (error) {
-    console.log('error', error)
-  }
+        console.log(`app running on port: ${port}`)
+    } catch (error) {
+        console.log('error', error)
+    }
 })
